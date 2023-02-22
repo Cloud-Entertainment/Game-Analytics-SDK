@@ -1,5 +1,5 @@
 [package]
-name = "Cloud-Entertainment/Game-Analytics-SDK"
+name = "cloud-entertainment/game-analytics-sdk"
 description = "Modified GameAnalytics Roblox SDK that works in Studio"
 version = "2.2.3"
 realm = "shared"
