@@ -1165,7 +1165,7 @@ local base64_symbols = {
 }
 
 local symbol_index = 0
-for j, pair in ipairs{"AZ", "az", "09"} do
+for _j, pair in ipairs{"AZ", "az", "09"} do
 	for ascii = string.byte(pair), string.byte(pair, 2) do
 		local ch = string.char(ascii)
 		base64_symbols[ch] = symbol_index

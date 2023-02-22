@@ -1,4 +1,3 @@
-local RunService = game:GetService("RunService")
 local validation = require(script.Parent.Validation)
 local version = require(script.Parent.Version)
 
@@ -28,8 +27,8 @@ local http_api = {
 
 local HTTP = game:GetService("HttpService")
 local logger = require(script.Parent.Logger)
-local baseUrl = (RunService:IsStudio() and "http" or http_api.protocol) .. "://" .. (RunService:IsStudio() and "sandbox-" or "") .. http_api.hostName .. "/" .. http_api.version
-local remoteConfigsBaseUrl = (RunService:IsStudio() and "http" or http_api.protocol) .. "://" .. (RunService:IsStudio() and "sandbox-" or "") .. http_api.hostName .. "/remote_configs/" .. http_api.remoteConfigsVersion
+local baseUrl = http_api.protocol .. "://" .. http_api.hostName .. "/" .. http_api.version
+local remoteConfigsBaseUrl = http_api.protocol .. "://" .. http_api.hostName .. "/remote_configs/" .. http_api.remoteConfigsVersion
 
 local function getInitAnnotations(build, playerData, playerId)
 	local initAnnotations = {
@@ -55,7 +54,7 @@ local function encode(payload, secretKey)
 	--Encode
 	local payloadHmac = HashLib.hmac(
 		HashLib.sha256,
-		RunService:IsStudio() and "16813a12f718bc5c620f56944e1abc3ea13ccbac" or secretKey,
+		secretKey,
 		payload,
 		true
 	)
@@ -92,9 +91,6 @@ end
 
 function http_api:initRequest(gameKey, secretKey, build, playerData, playerId)
 	local url = remoteConfigsBaseUrl .. "/" .. http_api.initializeUrlPath .. "?game_key=" .. gameKey .. "&interval_seconds=0&configs_hash=" .. (playerData.ConfigsHash or "")
-	if RunService:IsStudio() then
-		url = baseUrl .. "/5c6bcb5402204249437fb5a7a80a4959/" .. self.initializeUrlPath
-	end
 
 	logger:d("Sending 'init' URL: " .. url)
 
@@ -185,9 +181,6 @@ function http_api:sendEventsInArray(gameKey, secretKey, eventArray)
 
 	-- Generate URL
 	local url = baseUrl .. "/" .. gameKey .. "/" .. self.eventsUrlPath
-	if RunService:IsStudio() then
-		url = baseUrl .. "/5c6bcb5402204249437fb5a7a80a4959/" .. self.eventsUrlPath
-	end
 
 	logger:d("Sending 'events' URL: " .. url)
 
