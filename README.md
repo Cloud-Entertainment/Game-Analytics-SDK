@@ -1,3 +1,7 @@
+# Differences From Upstream GA-SDK
+
+This fork is modified to log events from Studio in the same way as the live game. If you do not want your GameAnalytics project to contain test analytics, you can implement the SDK to not initialize in Studio or simply use a different game key and secret key. Note that this version does not remove ALL studio-specific behaviors - logging via data stores is still disabled in Studio.
+
 GA-SDK-ROBLOX
 =============
 
@@ -13,6 +17,9 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**2.2.3**
+* fix analytics in Studio
+
 **2.2.2**
 * fix to wally support
 

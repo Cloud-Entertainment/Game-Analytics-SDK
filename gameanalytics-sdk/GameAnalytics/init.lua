@@ -17,7 +17,6 @@ local events = require(script.Events)
 local utilities = require(script.Utilities)
 local Players = game:GetService("Players")
 local MKT = game:GetService("MarketplaceService")
-local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local LocalizationService = game:GetService("LocalizationService")
 local ScriptContext = game:GetService("ScriptContext")
@@ -326,16 +325,12 @@ function ga:addErrorEvent(playerId, options)
 end
 
 function ga:setEnabledDebugLog(flag)
-	if RunService:IsStudio() then
-		if flag then
-			logger:setDebugLog(flag)
-			logger:i("Debug logging enabled")
-		else
-			logger:i("Debug logging disabled")
-			logger:setDebugLog(flag)
-		end
+	if flag then
+		logger:setDebugLog(flag)
+		logger:i("Debug logging enabled")
 	else
-		logger:i("setEnabledDebugLog can only be used in studio")
+		logger:i("Debug logging disabled")
+		logger:setDebugLog(flag)
 	end
 end
 

@@ -1,0 +1,19 @@
+{
+	"name": "gameanalytics-sdk",
+	"tree": {
+		"$className": "DataModel",
+
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			"DevPackages": {
+				"$path": "../DevPackages"
+			},
+			"Packages": {
+				"$className": "Folder",
+				"GameAnalyticsSDK": {
+					"$path": "../default.project.json"
+				}
+			}
+		}
+	}
+}

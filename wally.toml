@@ -1,11 +1,12 @@
 [package]
-name = "gameanalytics/gameanalytics-sdk"
-description = "Official Roblox SDK for GameAnalytics. GameAnalytics is a free analytics platform that helps game developers understand their players' behaviour by delivering relevant insights."
-version = "2.2.2"
-license = "MIT"
-authors = ["GameAnalytics <sdk@gameanalytics.com>"]
+name = "cloud-entertainment/game-analytics-sdk"
+description = "Modified GameAnalytics Roblox SDK that works in Studio"
+version = "2.2.3"
 realm = "shared"
-registry = "https://github.com/UpliftGames/wally-index"
-exclude = ["ExampleProject"]
+registry = "https://github.com/Cloud-Entertainment/wally-index"
+exclude = ["ExampleProject", "wally.exe", "aftman", "*.zip"]
 
 [dependencies]
+
+[dev-dependencies]
+TestEZ = "roblox/testez@0.4.1"

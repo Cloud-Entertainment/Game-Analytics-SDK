@@ -8,3 +8,6 @@
 roblox.toml
 
 *.DS_Store
+
+Packages
+DevPackages
