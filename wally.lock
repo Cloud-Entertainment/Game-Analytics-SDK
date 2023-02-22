@@ -3,7 +3,7 @@
 registry = "test"
 
 [[package]]
-name = "Cloud-Entertainment/Game-Analytics-SDK"
+name = "cloud-entertainment/game-analytics-sdk"
 version = "2.2.3"
 dependencies = []
 
