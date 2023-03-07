@@ -682,6 +682,16 @@ function ga:initServer(gameKey: string, secretKey: string)
 	})
 end
 
+function ga:isInitialized(playerId)
+	local initialized = state.Initialized
+
+	if playerId then
+		initialized = initialized and state:isEnabled(playerId)
+	end
+
+	return initialized
+end
+
 function ga:initialize(options)
 	threading:performTaskOnGAThread(function()
 		for _, option in ipairs(requiredInitializationOptions) do

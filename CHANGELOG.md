@@ -1,3 +1,3 @@
-## v2.2.3
+## v2.2.4
 
-* Fix analytics in Studio
+* Added a function to check whether or not the SDK is initialized for a given player

@@ -17,6 +17,9 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**2.2.4**
+* added a function to check whether or not the SDK is initialized for a given player
+
 **2.2.3**
 * fix analytics in Studio
 
