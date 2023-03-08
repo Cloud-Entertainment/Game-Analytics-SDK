@@ -1,3 +1,3 @@
-## v2.2.4
+## v2.2.5
 
-* Added a function to check whether or not the SDK is initialized for a given player
+* Added functionality for callbacks determinining if a player event should be added to the queue

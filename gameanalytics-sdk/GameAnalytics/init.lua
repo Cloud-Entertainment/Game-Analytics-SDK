@@ -15,6 +15,7 @@ local validation = require(script.Validation)
 local store = require(script.Store)
 local events = require(script.Events)
 local utilities = require(script.Utilities)
+local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local MKT = game:GetService("MarketplaceService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -31,6 +32,7 @@ local errorCountCacheKeys = {}
 
 local InitializationQueue = {}
 local InitializationQueueByUserId = {}
+local PlayerEventRules = {}
 
 local function addToInitializationQueue(func, ...)
 	if InitializationQueue ~= nil then
@@ -193,11 +195,45 @@ function ga:filterForBusinessEvent(text)
 	return string.gsub(text, "[^A-Za-z0-9%s%-_%.%(%)!%?]", "")
 end
 
+function ga:addPlayerEventRule(callback)
+	assert(typeof(callback) == "function", "Player event rule must be a function")
+
+	local guid = HttpService:GenerateGUID(false)
+	PlayerEventRules[guid] = callback
+
+	return guid
+end
+
+function ga:removePlayerEventRule(handle)
+	PlayerEventRules[handle] = nil
+end
+
+function ga:clearPlayerEventRules()
+	PlayerEventRules = {}
+end
+
+function ga:isPlayerEventAllowed(playerId, eventType)
+	if not playerId then return true end
+
+	for _, callback in pairs(PlayerEventRules) do
+		local result = callback(playerId, eventType)
+
+		if not result then return false end
+	end
+
+	return true
+end
+
 function ga:addBusinessEvent(playerId, options)
 	threading:performTaskOnGAThread(function()
 		if not state:isEventSubmissionEnabled() then
 			return
 		end
+
+		if not ga:isPlayerEventAllowed(playerId, "Business") then
+			return
+		end
+
 		if not isSdkReady({playerId = playerId, needsInitialized = true, shouldWarn = false, message = "Could not add business event"}) then
 			if playerId then
 				addToInitializationQueueByUserId(playerId, ga.addBusinessEvent, ga, playerId, options)
@@ -235,6 +271,11 @@ function ga:addResourceEvent(playerId, options)
 		if not state:isEventSubmissionEnabled() then
 			return
 		end
+
+		if not ga:isPlayerEventAllowed(playerId, "Resource") then
+			return
+		end
+
 		if not isSdkReady({playerId = playerId, needsInitialized = true, shouldWarn = false, message = "Could not add resource event"}) then
 			if playerId then
 				addToInitializationQueueByUserId(playerId, ga.addResourceEvent, ga, playerId, options)
@@ -260,6 +301,11 @@ function ga:addProgressionEvent(playerId, options)
 		if not state:isEventSubmissionEnabled() then
 			return
 		end
+
+		if not ga:isPlayerEventAllowed(playerId, "Progression") then
+			return
+		end
+
 		if not isSdkReady({playerId = playerId, needsInitialized = true, shouldWarn = false, message = "Could not add progression event"}) then
 			if playerId then
 				addToInitializationQueueByUserId(playerId, ga.addProgressionEvent, ga, playerId, options)
@@ -285,6 +331,11 @@ function ga:addDesignEvent(playerId, options)
 		if not state:isEventSubmissionEnabled() then
 			return
 		end
+
+		if not ga:isPlayerEventAllowed(playerId, "Design") then
+			return
+		end
+
 		if not isSdkReady({playerId = playerId, needsInitialized = true, shouldWarn = false, message = "Could not add design event"}) then
 			if playerId then
 				addToInitializationQueueByUserId(playerId, ga.addDesignEvent, ga, playerId, options)
@@ -307,6 +358,11 @@ function ga:addErrorEvent(playerId, options)
 		if not state:isEventSubmissionEnabled() then
 			return
 		end
+
+		if not ga:isPlayerEventAllowed(playerId, "Error") then
+			return
+		end
+
 		if not isSdkReady({playerId = playerId, needsInitialized = true, shouldWarn = false, message = "Could not add error event"}) then
 			if playerId then
 				addToInitializationQueueByUserId(playerId, ga.addErrorEvent, ga, playerId, options)
@@ -323,6 +379,7 @@ function ga:addErrorEvent(playerId, options)
 		events:addErrorEvent(playerId, severity, message)
 	end)
 end
+
 
 function ga:setEnabledDebugLog(flag)
 	if flag then

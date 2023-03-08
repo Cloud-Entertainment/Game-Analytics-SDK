@@ -1,7 +1,7 @@
 [package]
 name = "cloud-entertainment/game-analytics-sdk"
 description = "Modified GameAnalytics Roblox SDK that works in Studio"
-version = "2.2.4"
+version = "2.2.5"
 realm = "shared"
 registry = "https://github.com/Cloud-Entertainment/wally-index"
 exclude = ["ExampleProject", "wally.exe", "aftman", "*.zip"]
